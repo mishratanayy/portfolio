@@ -1,6 +1,7 @@
 {
     "name": "Jane Doe",
     "title": "Full Stack Developer",
+    "bio": "Detail-oriented full stack developer passionate about creating intuitive user experiences. Focused on building scalable applications with modern technologies. Committed to writing clean, maintainable code and staying current with industry trends.",
     "contact": {
       "email": "jane.doe@example.com",
       "phone": "+1 123 456 7890",

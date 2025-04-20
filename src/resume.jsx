@@ -1,15 +1,39 @@
 // components/Resume.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import resumeData from "./resumeData.json";
 
-function Resume({ onDownloadClick, theme }) {
+function Resume({ theme }) {
   const [expandedExperience, setExpandedExperience] = useState(null);
   const [expandedProject, setExpandedProject] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [displayedBio, setDisplayedBio] = useState("");
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const bioRef = useRef(null);
 
   useEffect(() => {
-    setIsVisible(true);
+    // Nothing needed here since we're setting isVisible to true by default
+    // Or you could add a small delay if you want
+  }, []);
+
+  // Typing animation effect
+  useEffect(() => {
+    if (!resumeData.bio) return;
+    
+    let i = 0;
+    const typingSpeed = 30; // Adjust for faster/slower typing
+    
+    const typingInterval = setInterval(() => {
+      if (i < resumeData.bio.length) {
+        setDisplayedBio(prev => prev + resumeData.bio.charAt(i));
+        i++;
+      } else {
+        clearInterval(typingInterval);
+        setIsTypingComplete(true);
+      }
+    }, typingSpeed);
+    
+    return () => clearInterval(typingInterval);
   }, []);
 
   const toggleExperience = (idx) => {
@@ -25,7 +49,7 @@ function Resume({ onDownloadClick, theme }) {
   };
 
   return (
-    <div className={`resume-layout ${isVisible ? 'fade-in' : ''}`}>
+    <div className={`resume-layout ${isVisible ? 'fade-in-animation' : ''}`}>
       <div className="resume-header">
         <h1 className="animated-name">{resumeData.name}</h1>
         <div className="title-container">
@@ -33,6 +57,14 @@ function Resume({ onDownloadClick, theme }) {
         </div>
         <p className="contact">
           {resumeData.contact.email} | {resumeData.contact.phone} | {resumeData.contact.location}
+        </p>
+      </div>
+
+      {/* Bio section with typing animation */}
+      <div className="bio-container">
+        <p className="bio-text">
+          {displayedBio}
+          <span className={`cursor ${isTypingComplete ? 'blink' : ''}`}></span>
         </p>
       </div>
 
@@ -131,12 +163,6 @@ function Resume({ onDownloadClick, theme }) {
               </div>
             ))}
           </section>
-
-          <div className="download-btn-container">
-            <button onClick={onDownloadClick} className="download-btn">
-              <span className="btn-text">Download PDF</span>
-            </button>
-          </div>
         </div>
       </div>
     </div>
