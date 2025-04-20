@@ -1420,3 +1420,122 @@ section h2 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Add these styles for the Accomplishments section */
+
+/* Section icon styling */
+.section-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  font-size: 1.5rem;
+  color: #f6b93b; /* Golden color for trophy */
+}
+
+/* Accomplishments grid */
+.accomplishments-grid {
+  display: grid;
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .accomplishments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Accomplishment card styling */
+.accomplishment-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #f6b93b; /* Golden border */
+  overflow: hidden;
+}
+
+.theme-dark .accomplishment-card {
+  background: #2a2d33;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.accomplishment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.accomplishment-card.expanded {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.accomplishment-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accomplishment-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.theme-dark .accomplishment-card h3 {
+  color: #e0e0e0;
+}
+
+.accomplishment-card .card-subtitle {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.theme-dark .accomplishment-card .card-subtitle {
+  color: #aaa;
+}
+
+.accomplishment-card .organization {
+  font-weight: 500;
+}
+
+.accomplishment-card .date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.theme-dark .accomplishment-card .date {
+  color: #999;
+}
+
+.accomplishment-card .expand-icon {
+  font-size: 1.2rem;
+  color: #f6b93b;
+  font-weight: bold;
+}
+
+/* Animation for accomplishments */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.accomplishment-card {
+  animation: fadeInRight 0.5s ease forwards;
+  animation-delay: calc(0.1s * var(--i, 0));
+  opacity: 0;
+}
+
+.accomplishment-card:nth-child(1) { --i: 1; }
+.accomplishment-card:nth-child(2) { --i: 2; }
+.accomplishment-card:nth-child(3) { --i: 3; }
+.accomplishment-card:nth-child(4) { --i: 4; }

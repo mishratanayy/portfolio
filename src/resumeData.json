@@ -51,6 +51,32 @@
             "description": "An e-commerce platform built with MERN stack.",
             "technologies": ["React", "Node.js", "Express", "MongoDB"]
         }
+    ],
+    "accomplishments": [
+      {
+        "title": "Excellence Award",
+        "organization": "Tech Solutions Inc.",
+        "date": "2022",
+        "description": "Recognized for outstanding contributions to the company's cloud migration project, reducing infrastructure costs by 30%."
+      },
+      {
+        "title": "Conference Speaker",
+        "organization": "ReactConf",
+        "date": "2021",
+        "description": "Delivered a talk on 'Optimizing React Performance in Large-Scale Applications' to an audience of 500+ developers."
+      },
+      {
+        "title": "Open Source Contributor",
+        "organization": "GitHub",
+        "date": "2020 - Present",
+        "description": "Active contributor to several popular JavaScript libraries with over 50 accepted pull requests."
+      },
+      {
+        "title": "Hackathon Winner",
+        "organization": "TechCrunch Disrupt",
+        "date": "2019",
+        "description": "First place in the annual hackathon for developing an innovative accessibility solution."
+      }
     ]
   }
   

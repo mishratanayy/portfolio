@@ -6,7 +6,8 @@ import {
   Database, 
   Browsers, 
   Cloud, 
-  Wrench 
+  Wrench,
+  Trophy
 } from "phosphor-react";
 
 function Resume({ theme }) {
@@ -17,6 +18,7 @@ function Resume({ theme }) {
   const [displayedBio, setDisplayedBio] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const bioRef = useRef(null);
+  const [expandedAccomplishment, setExpandedAccomplishment] = useState(null);
 
   useEffect(() => {
     // Nothing needed here since we're setting isVisible to true by default
@@ -49,6 +51,10 @@ function Resume({ theme }) {
 
   const toggleProject = (idx) => {
     setExpandedProject(expandedProject === idx ? null : idx);
+  };
+
+  const toggleAccomplishment = (idx) => {
+    setExpandedAccomplishment(expandedAccomplishment === idx ? null : idx);
   };
 
   const handleSectionHover = (section) => {
@@ -173,6 +179,41 @@ function Resume({ theme }) {
                 </div>
               </div>
             ))}
+          </section>
+
+          <section 
+            className={`section-card ${activeSection === 'accomplishments' ? 'active-section' : ''}`}
+            onMouseEnter={() => handleSectionHover('accomplishments')}
+            onMouseLeave={() => handleSectionHover(null)}
+          >
+            <h2>
+              <Trophy weight="duotone" className="section-icon" />
+              Accomplishments
+            </h2>
+            
+            <div className="accomplishments-grid">
+              {resumeData.accomplishments && resumeData.accomplishments.map((accomplishment, idx) => (
+                <div 
+                  key={idx} 
+                  className={`card accomplishment-card ${expandedAccomplishment === idx ? 'expanded' : ''}`} 
+                  onClick={() => toggleAccomplishment(idx)}
+                >
+                  <div className="card-header">
+                    <h3>{accomplishment.title}</h3>
+                    <span className="expand-icon">{expandedAccomplishment === idx ? '−' : '+'}</span>
+                  </div>
+                  
+                  <div className="card-subtitle">
+                    <span className="organization">{accomplishment.organization}</span>
+                    <span className="date">{accomplishment.date}</span>
+                  </div>
+                  
+                  <div className={`description ${expandedAccomplishment === idx ? 'show' : ''}`}>
+                    <p>{accomplishment.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section 
