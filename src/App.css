@@ -269,6 +269,33 @@ section h2 {
   border-top-color: #444;
 }
 
+/* Description List Styling */
+.description-list {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.description-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+  color: #444;
+  position: relative;
+  padding-left: 5px;
+}
+
+.description-list li::marker {
+  color: #4a7bff;
+}
+
+.theme-dark .description-list li {
+  color: #ddd;
+}
+
+.theme-dark .description-list li::marker {
+  color: #63d3ff;
+}
+
 /* Skills */
 .skills {
   display: flex;

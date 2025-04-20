@@ -79,6 +79,20 @@ function Resume({ theme }) {
     }
   };
 
+  // Render description as text or list based on type
+  const renderDescription = (description) => {
+    if (Array.isArray(description)) {
+      return (
+        <ul className="description-list">
+          {description.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      );
+    }
+    return <p>{description}</p>;
+  };
+
   return (
     <div className={`resume-layout ${isVisible ? 'fade-in-animation' : ''}`}>
       <div className="resume-header">
@@ -175,7 +189,7 @@ function Resume({ theme }) {
                 </div>
                 <p className="subtitle">{exp.company} • {exp.duration}</p>
                 <div className={`description ${expandedExperience === idx ? 'show' : ''}`}>
-                  <p>{exp.description}</p>
+                  {renderDescription(exp.description)}
                 </div>
               </div>
             ))}
@@ -209,7 +223,7 @@ function Resume({ theme }) {
                   </div>
                   
                   <div className={`description ${expandedAccomplishment === idx ? 'show' : ''}`}>
-                    <p>{accomplishment.description}</p>
+                    {renderDescription(accomplishment.description)}
                   </div>
                 </div>
               ))}
@@ -233,7 +247,7 @@ function Resume({ theme }) {
                   <span className="expand-icon">{expandedProject === idx ? '−' : '+'}</span>
                 </div>
                 <div className={`description ${expandedProject === idx ? 'show' : ''}`}>
-                  <p>{project.description}</p>
+                  {renderDescription(project.description)}
                   <div className="technologies">
                     {project.technologies && project.technologies.map((tech, techIdx) => (
                       <span key={techIdx} className="tech-badge">{tech}</span>

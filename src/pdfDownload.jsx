@@ -36,37 +36,44 @@ function PdfDownloadPage({ onBack, theme }) {
         doc.setTextColor(74, 123, 255);
         doc.text("Experience", 20, 65);
         
-        autoTable(doc, {
-          startY: 70,
-          headStyles: {
-            fillColor: [74, 123, 255],
-            textColor: [255, 255, 255],
-            fontStyle: 'bold',
-          },
-          head: [["Role", "Company", "Duration"]],
-          body: resumeData.experience.map((exp) => [
-            exp.role,
-            exp.company,
-            exp.duration,
-          ]),
-          bodyStyles: {
-            textColor: [50, 50, 50],
-          },
-          didDrawPage: (data) => {
-            doc.setDrawColor(74, 123, 255);
-            doc.setLineWidth(0.5);
-            doc.line(20, data.cursor.y + 5, 190, data.cursor.y + 5);
-          },
+        let experienceY = 70;
+        
+        // Add descriptions for experience
+        resumeData.experience.forEach((exp) => {
+          if (exp.description) {
+            experienceY += 10;
+            
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.setTextColor(50, 50, 50);
+            doc.text(`${exp.role} at ${exp.company}:`, 20, experienceY);
+            
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            experienceY += 8;
+            
+            if (Array.isArray(exp.description)) {
+              exp.description.forEach((item) => {
+                doc.text(`• ${item}`, 25, experienceY);
+                experienceY += 7;
+              });
+            } else {
+              // Handle as regular text with word wrapping
+              const textLines = doc.splitTextToSize(exp.description, 170);
+              doc.text(textLines, 25, experienceY);
+              experienceY += textLines.length * 7;
+            }
+          }
         });
 
         // Education section
         doc.setFont("helvetica", "bold");
         doc.setFontSize(16);
         doc.setTextColor(74, 123, 255);
-        doc.text("Education", 20, doc.lastAutoTable.finalY + 20);
+        doc.text("Education", 20, experienceY + 20);
         
         autoTable(doc, {
-          startY: doc.lastAutoTable.finalY + 25,
+          startY: experienceY + 25,
           headStyles: {
             fillColor: [74, 123, 255],
             textColor: [255, 255, 255],
@@ -120,7 +127,9 @@ function PdfDownloadPage({ onBack, theme }) {
             head: [["Name", "Description"]],
             body: resumeData.projects.map((project) => [
               project.name,
-              project.description,
+              Array.isArray(project.description) 
+                ? "• " + project.description.join("\n• ") 
+                : project.description,
             ]),
             bodyStyles: {
               textColor: [50, 50, 50],
@@ -146,6 +155,34 @@ function PdfDownloadPage({ onBack, theme }) {
             body: resumeData.links.map((link) => [
               link.name,
               link.url,
+            ]),
+            bodyStyles: {
+              textColor: [50, 50, 50],
+            },
+          });
+        }
+
+        // Accomplishments section
+        if (resumeData.accomplishments && resumeData.accomplishments.length > 0) {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(16);
+          doc.setTextColor(74, 123, 255);
+          doc.text("Accomplishments", 20, doc.lastAutoTable.finalY + 20);
+          
+          autoTable(doc, {
+            startY: doc.lastAutoTable.finalY + 25,
+            headStyles: {
+              fillColor: [74, 123, 255],
+              textColor: [255, 255, 255],
+              fontStyle: 'bold',
+            },
+            head: [["Title", "Organization", "Description"]],
+            body: resumeData.accomplishments.map((accomplishment) => [
+              accomplishment.title,
+              accomplishment.organization,
+              Array.isArray(accomplishment.description) 
+                ? "• " + accomplishment.description.join("\n• ") 
+                : accomplishment.description,
             ]),
             bodyStyles: {
               textColor: [50, 50, 50],
