@@ -1,0 +1,59 @@
+{
+    "name": "Jane Doe",
+    "title": "Full Stack Developer",
+    "contact": {
+      "email": "jane.doe@example.com",
+      "phone": "+1 123 456 7890",
+      "location": "San Francisco, CA"
+    },
+    "experience": [
+      {
+        "role": "Senior Developer",
+        "company": "Tech Solutions Inc.",
+        "duration": "2020 - Present",
+        "description": "Leading a team of developers to build scalable web applications using modern JavaScript frameworks and cloud technologies."
+      },
+      {
+        "role": "Frontend Developer",
+        "company": "Creative Apps LLC",
+        "duration": "2017 - 2020",
+        "description": "Designed and implemented interactive UIs with React and improved page performance by 30%."
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.Sc. in Computer Science",
+        "institution": "University of California, Berkeley",
+        "year": "2017"
+      }
+    ],
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Tailwind CSS",
+      "Git",
+      "Docker",
+      "AWS"
+    ],
+    "links": [
+        {"name": "GitHub", "url": "https://github.com/janedoe"},
+        {"name": "LinkedIn", "url": "https://linkedin.com/in/janedoe"},
+        {"name": "Portfolio", "url": "https://janedoe.com"}
+    ],
+    "projects": [
+        {
+            "name": "Project A",
+            "description": "A web application that allows users to manage their tasks efficiently.",
+            "technologies": ["React", "Node.js", "MongoDB"]
+        },
+        {
+            "name": "Project B",
+            "description": "An e-commerce platform built with MERN stack.",
+            "technologies": ["React", "Node.js", "Express", "MongoDB"]
+        }
+    ]
+  }
+  
