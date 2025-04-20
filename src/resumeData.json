@@ -28,17 +28,13 @@
         "year": "2017"
       }
     ],
-    "skills": [
-      "JavaScript",
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Tailwind CSS",
-      "Git",
-      "Docker",
-      "AWS"
-    ],
+    "skills": {
+      "Frontend": ["JavaScript", "React", "HTML5", "CSS3", "Tailwind CSS", "Redux"],
+      "Backend": ["Node.js", "Express", "Python", "Django"],
+      "Database": ["MongoDB", "PostgreSQL", "Firebase"],
+      "DevOps": ["Git", "Docker", "AWS", "CI/CD"],
+      "Tools": ["VS Code", "Figma", "Jest", "Webpack"]
+    },
     "links": [
         {"name": "GitHub", "url": "https://github.com/janedoe"},
         {"name": "LinkedIn", "url": "https://linkedin.com/in/janedoe"},

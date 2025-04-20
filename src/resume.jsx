@@ -1,6 +1,13 @@
 // components/Resume.js
 import React, { useState, useEffect, useRef } from "react";
 import resumeData from "./resumeData.json";
+import { 
+  Code, 
+  Database, 
+  Browsers, 
+  Cloud, 
+  Wrench 
+} from "phosphor-react";
 
 function Resume({ theme }) {
   const [expandedExperience, setExpandedExperience] = useState(null);
@@ -48,6 +55,24 @@ function Resume({ theme }) {
     setActiveSection(section);
   };
 
+  // Map category names to their icons
+  const getCategoryIcon = (category) => {
+    switch(category) {
+      case 'Frontend':
+        return <Browsers weight="duotone" />;
+      case 'Backend':
+        return <Code weight="duotone" />;
+      case 'Database':
+        return <Database weight="duotone" />;
+      case 'DevOps':
+        return <Cloud weight="duotone" />;
+      case 'Tools':
+        return <Wrench weight="duotone" />;
+      default:
+        return <Code weight="duotone" />;
+    }
+  };
+
   return (
     <div className={`resume-layout ${isVisible ? 'fade-in-animation' : ''}`}>
       <div className="resume-header">
@@ -90,9 +115,23 @@ function Resume({ theme }) {
             onMouseLeave={() => handleSectionHover(null)}
           >
             <h2>Skills</h2>
-            <div className="skills">
-              {resumeData.skills.map((skill, idx) => (
-                <span key={idx} className="skill-pill">{skill}</span>
+            <div className="skills-categories">
+              {Object.entries(resumeData.skills).map(([category, skills]) => (
+                <div key={category} className="skill-category">
+                  <div className="category-header">
+                    <div className="category-icon">
+                      {getCategoryIcon(category)}
+                    </div>
+                    <h3>{category}</h3>
+                  </div>
+                  <div className="skills-grid">
+                    {skills.map((skill, idx) => (
+                      <span key={idx} className="skill-pill">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </section>
