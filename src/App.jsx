@@ -1,82 +1,44 @@
 // App.js
-import React, { useState, useEffect } from "react";
-import Resume from "./resume";
-import PdfDownloadPage from "./pdfDownload";
-import ContactPage from "./ContactPage";
-import { 
-  RocketLaunch, 
-  PaperPlaneTilt, 
-  FileArrowDown, 
-  Moon, 
-  Sun, 
-  Envelope
-} from "phosphor-react";
-import "./App.css";
+import React, { useState, useEffect, useRef } from 'react';
+import Terminal from './components/Terminal';
+import './App.css';
 
-export default function App() {
-  const [theme, setTheme] = useState("light");
-  const [currentPage, setCurrentPage] = useState("resume"); // resume, pdf, contact
-  const [isVisible, setIsVisible] = useState(false);
+function App() {
+  const [visible, setVisible] = useState(true);
+  const [minimized, setMinimized] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(() => setVisible(true), 500);
   };
 
-  const renderPage = () => {
-    switch(currentPage) {
-      case "pdf":
-        return (
-          <PdfDownloadPage 
-            onBack={() => setCurrentPage("resume")} 
-            theme={theme} 
-          />
-        );
-      case "contact":
-        return (
-          <ContactPage
-            onBack={() => setCurrentPage("resume")}
-            theme={theme}
-          />
-        );
-      case "resume":
-      default:
-        return <Resume theme={theme} />;
-    }
+  const handleMinimize = () => {
+    setMinimized(!minimized);
   };
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const handleExpand = () => {
+    setExpanded(!expanded);
+  };
 
   return (
-    <main className={theme === "light" ? "theme-light" : "theme-dark"}>
-      <div className="action-sidebar">
-        <div className="action-button theme-button" onClick={toggleTheme}> 
-          {theme === "light" 
-            ? <Moon weight="duotone" className="action-icon" /> 
-            : <Sun weight="duotone" className="action-icon" />
-          }
-          <span className="button-tooltip">Toggle Theme</span>
+    <div className="app">
+      {visible && (
+        <div className={`terminal ${minimized ? 'minimized' : ''} ${expanded ? 'expanded' : ''}`}>
+          <div className="terminal-header">
+            <div className="terminal-controls">
+              <div className="terminal-control close" onClick={handleClose}></div>
+              <div className="terminal-control minimize" onClick={handleMinimize}></div>
+              <div className="terminal-control expand" onClick={handleExpand}></div>
+            </div>
+            <div className="terminal-title">tanay@portfolio:~</div>
+            <div></div>
+          </div>
+          {!minimized && <Terminal />}
         </div>
-        
-        <div 
-          className={`action-button download-button ${currentPage === "pdf" ? "active" : ""}`}
-          onClick={() => setCurrentPage("pdf")}
-        >
-          <FileArrowDown weight="duotone" className="action-icon" />
-          <span className="button-tooltip">Download Resume</span>
-        </div>
-        
-        <div 
-          className={`action-button contact-button ${currentPage === "contact" ? "active" : ""}`}
-          onClick={() => setCurrentPage("contact")}
-        >
-          <Envelope weight="duotone" className="action-icon" />
-          <span className="button-tooltip">Contact Me</span>
-        </div>
-      </div>
-      
-      {renderPage()}
-    </main>
+      )}
+    </div>
   );
 }
+
+export default App;

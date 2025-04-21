@@ -7,18 +7,20 @@ import {
   Browsers, 
   Cloud, 
   Wrench,
-  Trophy
+  Trophy,
+  ArrowLeft,
+  ArrowsClockwise
 } from "phosphor-react";
 
 function Resume({ theme }) {
-  const [expandedExperience, setExpandedExperience] = useState(null);
-  const [expandedProject, setExpandedProject] = useState(null);
+  const [flippedExperience, setFlippedExperience] = useState(null);
+  const [flippedProject, setFlippedProject] = useState(null);
+  const [flippedAccomplishment, setFlippedAccomplishment] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
   const [displayedBio, setDisplayedBio] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const bioRef = useRef(null);
-  const [expandedAccomplishment, setExpandedAccomplishment] = useState(null);
 
   useEffect(() => {
     // Nothing needed here since we're setting isVisible to true by default
@@ -45,16 +47,16 @@ function Resume({ theme }) {
     return () => clearInterval(typingInterval);
   }, []);
 
-  const toggleExperience = (idx) => {
-    setExpandedExperience(expandedExperience === idx ? null : idx);
+  const toggleExperienceFlip = (idx) => {
+    setFlippedExperience(flippedExperience === idx ? null : idx);
   };
 
-  const toggleProject = (idx) => {
-    setExpandedProject(expandedProject === idx ? null : idx);
+  const toggleProjectFlip = (idx) => {
+    setFlippedProject(flippedProject === idx ? null : idx);
   };
 
-  const toggleAccomplishment = (idx) => {
-    setExpandedAccomplishment(expandedAccomplishment === idx ? null : idx);
+  const toggleAccomplishmentFlip = (idx) => {
+    setFlippedAccomplishment(flippedAccomplishment === idx ? null : idx);
   };
 
   const handleSectionHover = (section) => {
@@ -121,12 +123,17 @@ function Resume({ theme }) {
             onMouseLeave={() => handleSectionHover(null)}
           >
             <h2>Education</h2>
-            {resumeData.education.map((edu, idx) => (
-              <div key={idx} className="card education-card">
-                <h3>{edu.degree}</h3>
-                <p>{edu.institution} • {edu.year}</p>
-              </div>
-            ))}
+            <div className="education-cards">
+              {resumeData.education.map((edu, idx) => (
+                <div key={idx} className="card education-card">
+                  <div className="card-header">
+                    <h3>{edu.degree}</h3>
+                    <span className="education-year">{edu.year}</span>
+                  </div>
+                  <p className="institution">{edu.institution}</p>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section 
@@ -172,7 +179,7 @@ function Resume({ theme }) {
 
         <div className="right-pane">
           <section 
-            className={`section-card ${activeSection === 'experience' ? 'active-section' : ''}`}
+            className={`section-card experience-section ${activeSection === 'experience' ? 'active-section' : ''}`}
             onMouseEnter={() => handleSectionHover('experience')}
             onMouseLeave={() => handleSectionHover(null)}
           >
@@ -180,23 +187,45 @@ function Resume({ theme }) {
             {resumeData.experience.map((exp, idx) => (
               <div 
                 key={idx} 
-                className={`card experience-card ${expandedExperience === idx ? 'expanded' : ''}`} 
-                onClick={() => toggleExperience(idx)}
+                className={`flip-card ${flippedExperience === idx ? 'flipped' : ''}`} 
+                onClick={() => toggleExperienceFlip(idx)}
               >
-                <div className="card-header">
-                  <h3>{exp.role}</h3>
-                  <span className="expand-icon">{expandedExperience === idx ? '−' : '+'}</span>
-                </div>
-                <p className="subtitle">{exp.company} • {exp.duration}</p>
-                <div className={`description ${expandedExperience === idx ? 'show' : ''}`}>
-                  {renderDescription(exp.description)}
+                <div className="flip-card-inner">
+                  <div className="flip-card-front experience-card-front">
+                    <div className="card-indicator">Experience</div>
+                    <h3>{exp.role}</h3>
+                    <div className="subtitle">
+                      <span>{exp.company}</span>
+                      <span>{exp.duration}</span>
+                    </div>
+                    {Array.isArray(exp.description) && exp.description.length > 0 ? (
+                      <div className="card-preview">{exp.description[0]}</div>
+                    ) : (
+                      <div className="card-preview">{exp.description}</div>
+                    )}
+                    <div className="flip-indicator">
+                      <ArrowsClockwise weight="duotone" />
+                    </div>
+                  </div>
+                  <div className="flip-card-back">
+                    <div className="content">
+                      {renderDescription(exp.description)}
+                    </div>
+                    <button className="flip-back-btn" onClick={(e) => {
+                      e.stopPropagation();
+                      toggleExperienceFlip(idx);
+                    }}>
+                      <ArrowLeft size={16} />
+                      Back
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </section>
 
           <section 
-            className={`section-card ${activeSection === 'accomplishments' ? 'active-section' : ''}`}
+            className={`section-card accomplishments-section ${activeSection === 'accomplishments' ? 'active-section' : ''}`}
             onMouseEnter={() => handleSectionHover('accomplishments')}
             onMouseLeave={() => handleSectionHover(null)}
           >
@@ -209,21 +238,38 @@ function Resume({ theme }) {
               {resumeData.accomplishments && resumeData.accomplishments.map((accomplishment, idx) => (
                 <div 
                   key={idx} 
-                  className={`card accomplishment-card ${expandedAccomplishment === idx ? 'expanded' : ''}`} 
-                  onClick={() => toggleAccomplishment(idx)}
+                  className={`flip-card ${flippedAccomplishment === idx ? 'flipped' : ''}`} 
+                  onClick={() => toggleAccomplishmentFlip(idx)}
                 >
-                  <div className="card-header">
-                    <h3>{accomplishment.title}</h3>
-                    <span className="expand-icon">{expandedAccomplishment === idx ? '−' : '+'}</span>
-                  </div>
-                  
-                  <div className="card-subtitle">
-                    <span className="organization">{accomplishment.organization}</span>
-                    <span className="date">{accomplishment.date}</span>
-                  </div>
-                  
-                  <div className={`description ${expandedAccomplishment === idx ? 'show' : ''}`}>
-                    {renderDescription(accomplishment.description)}
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front accomplishment-card-front">
+                      <div className="card-indicator">Achievement</div>
+                      <h3>{accomplishment.title}</h3>
+                      <div className="subtitle">
+                        <span>{accomplishment.organization}</span>
+                        <span>{accomplishment.date}</span>
+                      </div>
+                      {Array.isArray(accomplishment.description) && accomplishment.description.length > 0 ? (
+                        <div className="card-preview">{accomplishment.description[0]}</div>
+                      ) : (
+                        <div className="card-preview">{accomplishment.description}</div>
+                      )}
+                      <div className="flip-indicator">
+                        <ArrowsClockwise weight="duotone" />
+                      </div>
+                    </div>
+                    <div className="flip-card-back">
+                      <div className="content">
+                        {renderDescription(accomplishment.description)}
+                      </div>
+                      <button className="flip-back-btn" onClick={(e) => {
+                        e.stopPropagation();
+                        toggleAccomplishmentFlip(idx);
+                      }}>
+                        <ArrowLeft size={16} />
+                        Back
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -231,7 +277,7 @@ function Resume({ theme }) {
           </section>
 
           <section 
-            className={`section-card ${activeSection === 'projects' ? 'active-section' : ''}`}
+            className={`section-card projects-section ${activeSection === 'projects' ? 'active-section' : ''}`}
             onMouseEnter={() => handleSectionHover('projects')}
             onMouseLeave={() => handleSectionHover(null)}
           >
@@ -239,19 +285,46 @@ function Resume({ theme }) {
             {resumeData.projects.map((project, idx) => (
               <div 
                 key={idx} 
-                className={`card project-card ${expandedProject === idx ? 'expanded' : ''}`} 
-                onClick={() => toggleProject(idx)}
+                className={`flip-card ${flippedProject === idx ? 'flipped' : ''}`} 
+                onClick={() => toggleProjectFlip(idx)}
               >
-                <div className="card-header">
-                  <h3>{project.name}</h3>
-                  <span className="expand-icon">{expandedProject === idx ? '−' : '+'}</span>
-                </div>
-                <div className={`description ${expandedProject === idx ? 'show' : ''}`}>
-                  {renderDescription(project.description)}
-                  <div className="technologies">
-                    {project.technologies && project.technologies.map((tech, techIdx) => (
-                      <span key={techIdx} className="tech-badge">{tech}</span>
-                    ))}
+                <div className="flip-card-inner">
+                  <div className="flip-card-front project-card-front">
+                    <div className="card-indicator">Project</div>
+                    <h3>{project.name}</h3>
+                    {Array.isArray(project.description) && project.description.length > 0 ? (
+                      <div className="card-preview">{project.description[0]}</div>
+                    ) : (
+                      <div className="card-preview">{project.description}</div>
+                    )}
+                    <div className="tech-preview">
+                      {project.technologies && project.technologies.slice(0, 3).map((tech, techIdx) => (
+                        <span key={techIdx} className="tech-badge">{tech}</span>
+                      ))}
+                      {project.technologies && project.technologies.length > 3 && (
+                        <span className="tech-badge">+{project.technologies.length - 3}</span>
+                      )}
+                    </div>
+                    <div className="flip-indicator">
+                      <ArrowsClockwise weight="duotone" />
+                    </div>
+                  </div>
+                  <div className="flip-card-back">
+                    <div className="content">
+                      {renderDescription(project.description)}
+                      <div className="technologies">
+                        {project.technologies && project.technologies.map((tech, techIdx) => (
+                          <span key={techIdx} className="tech-badge">{tech}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <button className="flip-back-btn" onClick={(e) => {
+                      e.stopPropagation();
+                      toggleProjectFlip(idx);
+                    }}>
+                      <ArrowLeft size={16} />
+                      Back
+                    </button>
                   </div>
                 </div>
               </div>

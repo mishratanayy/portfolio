@@ -147,6 +147,8 @@ body, main {
 
 .right-pane {
   width: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Sections */
@@ -156,6 +158,8 @@ body, main {
   border-radius: 10px;
   transition: all 0.3s ease;
   border: 1px solid transparent;
+  display: block;
+  width: 100%;
 }
 
 .active-section {
@@ -1461,12 +1465,13 @@ section h2 {
 /* Accomplishments grid */
 .accomplishments-grid {
   display: grid;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .accomplishments-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1566,3 +1571,1020 @@ section h2 {
 .accomplishment-card:nth-child(2) { --i: 2; }
 .accomplishment-card:nth-child(3) { --i: 3; }
 .accomplishment-card:nth-child(4) { --i: 4; }
+
+/* Add flip card animations */
+.flip-card {
+  perspective: 1000px;
+  background-color: transparent;
+  width: 100%;
+  margin-bottom: 25px;
+  cursor: pointer;
+  display: block;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  min-height: 200px;
+  height: 100%;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-dark .flip-card-front, .theme-dark .flip-card-back {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.flip-card-front {
+  background-color: white;
+  border-left: 4px solid #4a7bff;
+  z-index: 2;
+}
+
+.theme-dark .flip-card-front {
+  background-color: #2a2d33;
+  border-left: 4px solid #63d3ff;
+}
+
+.flip-card-back {
+  background-color: #f8f9fa;
+  transform: rotateY(180deg);
+  border-left: 4px solid #4a7bff;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.theme-dark .flip-card-back {
+  background-color: #333941;
+  border-left: 4px solid #63d3ff;
+}
+
+.flip-indicator {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  color: #4a7bff;
+  font-size: 24px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.theme-dark .flip-indicator {
+  color: #63d3ff;
+}
+
+.flip-card:hover .flip-indicator {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.flip-card-front h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.theme-dark .flip-card-front h3 {
+  color: #f0f0f0;
+}
+
+.flip-card-front .subtitle {
+  color: #757575;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-dark .flip-card-front .subtitle {
+  color: #aaa;
+}
+
+.flip-card-back .content {
+  flex: 1;
+}
+
+.flip-back-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #4a7bff;
+  cursor: pointer;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.theme-dark .flip-back-btn {
+  color: #63d3ff;
+}
+
+.flip-back-btn:hover {
+  background-color: rgba(74, 123, 255, 0.1);
+}
+
+.theme-dark .flip-back-btn:hover {
+  background-color: rgba(99, 211, 255, 0.1);
+}
+
+/* Section hover effects */
+.section-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark .section-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a card indicator */
+.card-indicator {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background-color: rgba(74, 123, 255, 0.1);
+  color: #4a7bff;
+  font-weight: 500;
+}
+
+.theme-dark .card-indicator {
+  background-color: rgba(99, 211, 255, 0.1);
+  color: #63d3ff;
+}
+
+/* Project card styles */
+.project-card-front, .experience-card-front, .accomplishment-card-front {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-preview {
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.theme-dark .card-preview {
+  color: #bbb;
+}
+
+/* Projects tech badge container */
+.tech-preview {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* Education card styles */
+.education-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.education-card {
+  border-left-color: #ff8c66;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark .education-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.education-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.education-year {
+  background: rgba(255, 140, 102, 0.1);
+  color: #ff8c66;
+  font-size: 0.85rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.theme-dark .education-year {
+  background: rgba(255, 140, 102, 0.2);
+}
+
+.education-card .institution {
+  color: #777;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.theme-dark .education-card .institution {
+  color: #bbb;
+}
+
+/* Additional fixes for card layout */
+.flip-card-front {
+  background-color: white;
+  border-left: 4px solid #4a7bff;
+  z-index: 2;
+}
+
+.flip-card-back {
+  background-color: #f8f9fa;
+  transform: rotateY(180deg);
+  border-left: 4px solid #4a7bff;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+/* Fixed dimensions for consistent flip cards */
+.project-card-front, .experience-card-front, .accomplishment-card-front {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Ensure content is displayed properly */
+.content {
+  overflow-y: auto;
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+/* Fix positioning of indicators and preview text */
+.card-preview {
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Ensure each section is properly separated */
+section {
+  margin-bottom: 40px;
+  display: block;
+  width: 100%;
+}
+
+/* Create more consistent heights for all cards */
+.experience-section .flip-card-inner {
+  min-height: 220px;
+}
+
+.projects-section .flip-card-inner {
+  min-height: 220px;
+}
+
+/* Fix layout for smaller screens */
+@media (max-width: 768px) {
+  .flip-card-inner {
+    min-height: 220px;
+  }
+  
+  .accomplishments-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .flip-card-front, .flip-card-back {
+    min-height: 220px;
+  }
+}
+
+/* Set fixed heights for cards in different sections */
+.experience-section .flip-card {
+  height: 250px;
+}
+
+.projects-section .flip-card {
+  height: 250px;
+}
+
+.accomplishments-section .flip-card {
+  height: 220px;
+}
+
+/* Ensure the back content scrolls properly */
+.flip-card-back .content {
+  overflow-y: auto;
+  max-height: calc(100% - 40px); /* Allow space for the back button */
+  padding-right: 5px;
+}
+
+/* Set proper margin for flip cards */
+.flip-card {
+  margin-bottom: 30px;
+}
+
+/* Make sure the cards in accomplishments grid have proper spacing */
+.accomplishments-grid .flip-card {
+  margin-bottom: 0;
+}
+
+/* Improve spacing for mobile devices */
+@media (max-width: 768px) {
+  .accomplishments-grid {
+    gap: 30px;
+  }
+  
+  .flip-card {
+    margin-bottom: 30px;
+  }
+  
+  .experience-section .flip-card,
+  .projects-section .flip-card,
+  .accomplishments-section .flip-card {
+    height: auto;
+    min-height: 220px;
+  }
+  
+  .flip-card-inner {
+    min-height: 220px;
+  }
+}
+
+/* Terminal theme for portfolio */
+:root {
+  --bg-color: #0c0c0c;
+  --terminal-bg: #0f0f0f;
+  --text-color: #0f0;
+  --text-dim: rgba(0, 255, 0, 0.7);
+  --text-bright: #00ff00;
+  --cursor-color: #0f0;
+  --selection-bg: rgba(0, 255, 0, 0.2);
+  --selection-color: #fff;
+  --accent-color: #0f0;
+  --error-color: #f00;
+  --font-mono: 'Fira Code', monospace;
+  --success-color: #0f0;
+  --warning-color: #ff0;
+  --info-color: #0ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-color);
+}
+
+.terminal {
+  width: 90vw;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: var(--terminal-bg);
+  border: 1px solid var(--text-dim);
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 4rem);
+}
+
+/* Terminal Header */
+.terminal-header {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--text-dim);
+}
+
+.terminal-title {
+  color: var(--text-bright);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminal-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.terminal-control.close { background-color: #ff5f56; }
+.terminal-control.minimize { background-color: #ffbd2e; }
+.terminal-control.expand { background-color: #27c93f; }
+
+/* Terminal Content */
+.terminal-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 0.95rem;
+  background-color: var(--terminal-bg);
+  position: relative;
+}
+
+.terminal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+  background: var(--text-dim);
+  border-radius: 4px;
+}
+
+/* Terminal line and typing effect */
+.terminal-line {
+  display: flex;
+  margin-bottom: 0.7rem;
+  line-height: 1.5;
+  position: relative;
+}
+
+.terminal-prompt {
+  color: var(--text-bright);
+  margin-right: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.terminal-output {
+  flex: 1;
+  color: var(--text-color);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 0.6rem;
+  height: 1rem;
+  background-color: var(--cursor-color);
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Command feedback */
+.command-success {
+  color: var(--success-color);
+}
+
+.command-error {
+  color: var(--error-color);
+}
+
+.command-warning {
+  color: var(--warning-color);
+}
+
+.command-info {
+  color: var(--info-color);
+}
+
+/* Directory and files styling */
+.dir {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.file {
+  color: var(--text-color);
+}
+
+/* Skills and tech badges */
+.skill-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin: 0.25rem;
+  border: 1px solid var(--text-color);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  color: var(--text-bright);
+  background-color: rgba(0, 255, 0, 0.05);
+}
+
+/* Links styling */
+a {
+  color: var(--text-bright);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-dim);
+  padding-bottom: 2px;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--text-bright);
+  border-bottom-color: var(--text-bright);
+}
+
+/* Sections */
+.section-title {
+  color: var(--text-bright);
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title::before {
+  content: '[';
+}
+
+.section-title::after {
+  content: ']';
+}
+
+/* Experience cards */
+.experience-item {
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--text-dim);
+  position: relative;
+}
+
+.experience-item::before {
+  content: '>';
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+  color: var(--text-bright);
+  background-color: var(--terminal-bg);
+  font-weight: bold;
+}
+
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.experience-role {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+.experience-company {
+  color: var(--text-bright);
+  opacity: 0.8;
+}
+
+.experience-duration {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.experience-description {
+  padding-left: 1rem;
+}
+
+.experience-description ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.experience-description li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.experience-description li::before {
+  content: '$';
+  position: absolute;
+  left: 0;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+/* Projects section */
+.project-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--text-dim);
+  border-radius: 4px;
+  background-color: rgba(0, 255, 0, 0.03);
+}
+
+.project-header {
+  margin-bottom: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-name {
+  color: var(--text-bright);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .terminal {
+    width: 95vw;
+    height: calc(100vh - 2rem);
+    margin: 1rem auto;
+  }
+
+  .terminal-content {
+    font-size: 0.85rem;
+  }
+
+  .experience-header {
+    flex-direction: column;
+  }
+
+  .experience-duration {
+    margin-top: 0.3rem;
+  }
+}
+
+/* Typing animation */
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid var(--text-color);
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--text-color) }
+}
+
+/* CRT effect */
+.terminal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 10;
+}
+
+.terminal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 10, 0, 0.3) 90%,
+    rgba(0, 30, 0, 0.5) 100%
+  );
+  pointer-events: none;
+  z-index: 9;
+}
+
+/* Additional styles for the terminal */
+
+/* ASCII art styling */
+.ascii-art {
+  font-family: monospace;
+  white-space: pre;
+  color: var(--text-bright);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px var(--text-color);
+}
+
+/* Terminal minimized and expanded states */
+.terminal.minimized {
+  height: auto;
+}
+
+.terminal.expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  z-index: 1000;
+  border-radius: 0;
+}
+
+/* Education styles */
+.education-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--text-dim);
+}
+
+.education-degree {
+  color: var(--text-bright);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.education-institution {
+  color: var(--text-dim);
+}
+
+.education-year {
+  color: var(--text-dim);
+}
+
+/* Skill category styling */
+.skill-category {
+  margin-bottom: 1rem;
+}
+
+.skill-category-name {
+  color: var(--text-bright);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Accomplishment styling */
+.accomplishment-item {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--text-dim);
+}
+
+.accomplishment-title {
+  color: var(--text-bright);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.accomplishment-details {
+  margin-bottom: 0.5rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.accomplishment-description {
+  margin-left: 1rem;
+}
+
+.accomplishment-description ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.accomplishment-description li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.accomplishment-description li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--text-bright);
+}
+
+/* Contact links styling */
+.links-output ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.links-output li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.links-output li::before {
+  content: '→';
+  color: var(--text-bright);
+  margin-right: 0.5rem;
+}
+
+/* Glitch effect for terminal */
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                0.05em 0 0 rgba(0, 255, 0, 0.75),
+                0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                0.05em 0 0 rgba(0, 255, 0, 0.75),
+                0 -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+  100% {
+    text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+                -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+  }
+}
+
+.welcome-message h1 {
+  animation: glitch 1s linear infinite;
+}
+
+/* Hidden input styling */
+.terminal-input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.terminal-input {
+  color: var(--text-color);
+}
+
+/* Scanline effect */
+.terminal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+  animation: scanline 10s linear infinite;
+  opacity: 0.2;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Terminal command outputs styling */
+
+/* ls command output styling */
+.ls-output {
+  margin: 5px 0;
+}
+
+.files-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.dir {
+  color: #4a9df8;
+  font-weight: bold;
+}
+
+.file {
+  color: #f8f8f8;
+}
+
+/* Command error and info styling */
+.command-error {
+  color: #ff6b6b;
+  margin: 5px 0;
+}
+
+.command-info {
+  color: #63c5da;
+  font-weight: bold;
+}
+
+/* Terminal welcome styling */
+.welcome-message h1 {
+  animation: glitch 1s linear infinite;
+}
